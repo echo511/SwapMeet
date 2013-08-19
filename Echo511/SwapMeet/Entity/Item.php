@@ -15,15 +15,15 @@ use LeanMapper\Entity;
 
 
 /**
- * Selling item entity.
- * 
- * @author Nikolas Tsiongas
+ * Item.
  * 
  * @property int $id
  * @property string $title
  * @property int $price
  * @property int $remaining
  * @property User $user m:hasOne
+ * 
+ * @author Nikolas Tsiongas
  */
 class Item extends Entity
 {

@@ -13,6 +13,8 @@ namespace Echo511\SwapMeet\Repository;
 
 
 /**
+ * Tag repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class TagRepository extends \Echo511\SwapMeet\ORM\Repository

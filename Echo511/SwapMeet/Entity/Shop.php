@@ -20,6 +20,8 @@ use Nette\Object;
 
 
 /**
+ * Representation of shop. Is virtual - not stored in database.
+ * 
  * @author Nikolas Tsiongas
  */
 class Shop extends Object
@@ -41,6 +43,12 @@ class Shop extends Object
 	private $transactions;
 
 
+	/**
+	 * @param AvailabilityService $availabilityService
+	 * @param ItemRepository $itemRepository
+	 * @param OrderRepository $orderRepository
+	 * @param Transactions $transactions
+	 */
 	public function __construct(AvailabilityService $availabilityService, ItemRepository $itemRepository, OrderRepository $orderRepository, Transactions $transactions)
 	{
 		$this->availabilityService = $availabilityService;
@@ -51,6 +59,11 @@ class Shop extends Object
 
 
 
+	/**
+	 * Give item to customer if available.
+	 * @param Item $item
+	 * @param Customer $customer
+	 */
 	public function giveItem(Item $item, Customer $customer)
 	{
 		$this->checkAvailability($item);
@@ -59,6 +72,12 @@ class Shop extends Object
 
 
 
+	/**
+	 * Process submitted order and give it back to customer.
+	 * @param Order $order
+	 * @param Cart $cart
+	 * @param Customer $customer
+	 */
 	public function processOrder(Order $order, Cart $cart, Customer $customer)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'processOrder');
@@ -85,6 +104,11 @@ class Shop extends Object
 
 
 
+	/**
+	 * Check if item is available.
+	 * @param Item $item
+	 * @throws Exception
+	 */
 	protected function checkAvailability(Item $item)
 	{
 		$title = $item->title;

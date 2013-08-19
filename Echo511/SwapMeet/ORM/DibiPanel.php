@@ -17,17 +17,25 @@ use Kdyby\Events\Subscriber;
 
 
 /**
+ * Dibi panel
+ * 
  * @author Nikolas Tsiongas
  */
 class DibiPanel extends DibiNettePanel implements Subscriber
 {
 
+	/**
+	 * Log query.
+	 * @param DibiEvent $dibiEvent
+	 */
 	public function onEvent(DibiEvent $dibiEvent)
 	{
 		$this->logEvent($dibiEvent);
 	}
 
 
+
+	/* ----------- Subscriber ----------- */
 
 	public function getSubscribedEvents()
 	{

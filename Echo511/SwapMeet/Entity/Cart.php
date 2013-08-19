@@ -22,15 +22,15 @@ use DateTime;
  * @property DateTime $lastCheckIn
  * @property User|null $user m:hasOne
  * @property Item[] $items m:hasMany
- */
-
-
-/**
+ * 
  * @author Nikolas Tsiongas
  */
 class Cart extends Entity
 {
 
+	/**
+	 * Init values.
+	 */
 	public function initDefaults()
 	{
 		$this->lastCheckIn = new DateTime;
@@ -38,6 +38,10 @@ class Cart extends Entity
 
 
 
+	/**
+	 * Count total price of items in cart.
+	 * @return int
+	 */
 	public function getTotalPrice()
 	{
 		$price = 0;
@@ -49,6 +53,10 @@ class Cart extends Entity
 
 
 
+	/**
+	 * Count items in cart.
+	 * @return int
+	 */
 	public function getTotalItems()
 	{
 		return count($this->items);

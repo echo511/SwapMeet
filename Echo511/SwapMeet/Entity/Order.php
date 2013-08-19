@@ -16,15 +16,15 @@ use LeanMapper\Entity;
 
 
 /**
- * Order entity.
- * 
- * @author Nikolas Tsiongas
+ * Order.
  * 
  * @property int $id
  * @property string $buyersEmail
  * @property DateTime $created
  * @property User $user m:hasOne
  * @property Item[] $items m:hasMany
+ * 
+ * @author Nikolas Tsiongas
  */
 class Order extends Entity
 {

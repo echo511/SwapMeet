@@ -18,11 +18,33 @@ use Echo511\SwapMeet\ORM\Repository;
 
 
 /**
+ * Cart repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class CartRepository extends Repository
 {
 
+	/** @var int */
+	private $cartLifetime = 300;
+
+
+	/**
+	 * Set cart life time in seconds.
+	 * @param int $seconds
+	 */
+	public function setCartLifetime($seconds)
+	{
+		$this->cartLifetime = $seconds;
+	}
+
+
+
+	/**
+	 * Return cart by user.
+	 * @param User $user
+	 * @return Cart|boolean
+	 */
 	public function getByUser(User $user)
 	{
 		$row = $this->connection->select('*')
@@ -39,6 +61,10 @@ class CartRepository extends Repository
 
 
 
+	/**
+	 * Return recent carts.
+	 * @return Cart[]
+	 */
 	public function getRecent()
 	{
 		$rows = $this->connection->select('*')
@@ -51,6 +77,11 @@ class CartRepository extends Repository
 
 
 
+	/**
+	 * Is cart recent?
+	 * @param Cart $cart
+	 * @return boolean
+	 */
 	public function isRecent(Cart $cart)
 	{
 		if ($cart->lastCheckIn > $this->getRecentLimitDatetime()) {
@@ -61,10 +92,14 @@ class CartRepository extends Repository
 
 
 
+	/**
+	 * Return limit datetime for recent carts.
+	 * @return DateTime
+	 */
 	private function getRecentLimitDatetime()
 	{
 		$datetime = new DateTime;
-		$datetime->setTimestamp(time() - (500));
+		$datetime->setTimestamp(time() - $this->cartLifetime);
 		return $datetime;
 	}
 

@@ -22,6 +22,8 @@ use Nette\Templating\FileTemplate;
 
 
 /**
+ * Email buyer after successful order.
+ * 
  * @author Nikolas Tsiongas
  */
 class EmailBuyerAfterOrder extends Object implements Subscriber
@@ -31,6 +33,9 @@ class EmailBuyerAfterOrder extends Object implements Subscriber
 	private $mailer;
 
 
+	/**
+	 * @param IMailer $mailer
+	 */
 	public function __construct(IMailer $mailer)
 	{
 		$this->mailer = $mailer;
@@ -38,15 +43,11 @@ class EmailBuyerAfterOrder extends Object implements Subscriber
 
 
 
-	public function getSubscribedEvents()
-	{
-		return array(
-		    'Echo511\SwapMeet\Entity\Shop::onSuccessOrder'
-		);
-	}
-
-
-
+	/**
+	 * Send email on event.
+	 * @param Order $order
+	 * @param Customer $customer
+	 */
 	public function onSuccessOrder(Order $order, Customer $customer)
 	{
 		$mail = $this->createMessage($order);
@@ -55,6 +56,11 @@ class EmailBuyerAfterOrder extends Object implements Subscriber
 
 
 
+	/**
+	 * Create mail message.
+	 * @param Order $order
+	 * @return Message
+	 */
 	protected function createMessage(Order $order)
 	{
 		$mail = new Message;
@@ -66,6 +72,11 @@ class EmailBuyerAfterOrder extends Object implements Subscriber
 
 
 
+	/**
+	 * Create template.
+	 * @param Order $order
+	 * @return FileTemplate
+	 */
 	protected function createTemplate(Order $order)
 	{
 		$template = new FileTemplate(__DIR__ . DIRECTORY_SEPARATOR . 'OrderEmails' . DIRECTORY_SEPARATOR . 'emailToBuyer.latte');
@@ -75,6 +86,17 @@ class EmailBuyerAfterOrder extends Object implements Subscriber
 		$template->items = $order->items;
 
 		return $template;
+	}
+
+
+
+	/* ----------- Subscriber ----------- */
+
+	public function getSubscribedEvents()
+	{
+		return array(
+		    'Echo511\SwapMeet\Entity\Shop::onSuccessOrder'
+		);
 	}
 
 

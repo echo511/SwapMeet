@@ -23,6 +23,8 @@ use Nette\Security\User as SecurityUser;
 
 
 /**
+ * Create single customer instance for browser session.
+ * 
  * @author Nikolas Tsiongas
  */
 class CustomerFactory
@@ -44,17 +46,28 @@ class CustomerFactory
 	private $transactions;
 
 
-	public function __construct(CartRepository $cartRepository, UserRepository $userRepository, SecurityUser $securityUser, Session $session, Transactions $transactions)
+	/**
+	 * @param CartRepository $cartRepository
+	 * @param SecurityUser $securityUser
+	 * @param Session $session
+	 * @param Transactions $transactions
+	 * @param UserRepository $userRepository
+	 */
+	public function __construct(CartRepository $cartRepository, SecurityUser $securityUser, Session $session, Transactions $transactions, UserRepository $userRepository)
 	{
 		$this->cartRepository = $cartRepository;
-		$this->userRepository = $userRepository;
 		$this->securityUser = $securityUser;
 		$this->session = $session->getSection(get_called_class());
 		$this->transactions = $transactions;
+		$this->userRepository = $userRepository;
 	}
 
 
 
+	/**
+	 * Create customer as service.
+	 * @return Customer
+	 */
 	public function create()
 	{
 		$cart = $this->getCart();
@@ -70,6 +83,10 @@ class CustomerFactory
 
 
 
+	/**
+	 * Return cart for browser session.
+	 * @return Cart
+	 */
 	private function getCart()
 	{
 		$this->transactions->startTransaction(get_called_class() . 'getCart');

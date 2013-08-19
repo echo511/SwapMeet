@@ -11,7 +11,6 @@
 
 namespace Echo511\SwapMeet\Presenter;
 
-use DateTime;
 use Echo511\SwapMeet\Entity\Order;
 use Echo511\SwapMeet\Repository\ImageRepository;
 use Echo511\SwapMeet\Repository\ItemRepository;
@@ -19,6 +18,8 @@ use Nette\Application\UI\Form;
 
 
 /**
+ * Customer's cart.
+ * 
  * @author Nikolas Tsiongas
  */
 class CartPresenter extends BasePresenter
@@ -31,6 +32,11 @@ class CartPresenter extends BasePresenter
 	private $itemRepository;
 
 
+	/**
+	 * Inject dependencies.
+	 * @param ImageRepository $imageRepository
+	 * @param ItemRepository $itemRepository
+	 */
 	public function injectCartPresenter(ImageRepository $imageRepository, ItemRepository $itemRepository)
 	{
 		$this->imageRepository = $imageRepository;
@@ -39,6 +45,10 @@ class CartPresenter extends BasePresenter
 
 
 
+	/**
+	 * Remove item from cart.
+	 * @param int $item_id
+	 */
 	public function handleRemoveFromCart($item_id)
 	{
 		$item = $this->itemRepository->get($item_id);
@@ -54,6 +64,9 @@ class CartPresenter extends BasePresenter
 
 
 
+	/**
+	 * Render.
+	 */
 	public function renderDefault()
 	{
 		$this->template->cart = $this->customer->getCart();
@@ -63,6 +76,10 @@ class CartPresenter extends BasePresenter
 
 
 
+	/**
+	 * Create order form.
+	 * @return Form
+	 */
 	public function createComponentOrderForm()
 	{
 		$form = new Form;
@@ -75,6 +92,10 @@ class CartPresenter extends BasePresenter
 
 
 
+	/**
+	 * Process order form.
+	 * @param Form $form
+	 */
 	public function processOrder(Form $form)
 	{
 		if (count($this->customer->getCart()->items) > 0) {

@@ -16,6 +16,11 @@ use Echo511\SwapMeet\Entity\Shop;
 use Nette\Application\UI\Presenter;
 
 
+/**
+ * Abstract presenter.
+ * 
+ * @author Nikolas Tsiongas
+ */
 abstract class BasePresenter extends Presenter
 {
 
@@ -26,6 +31,11 @@ abstract class BasePresenter extends Presenter
 	protected $shop;
 
 
+	/**
+	 * Inject dependencies.
+	 * @param Customer $customer
+	 * @param Shop $shop
+	 */
 	public function injectBasePresenter(Customer $customer, Shop $shop)
 	{
 		$this->customer = $customer;
@@ -34,6 +44,9 @@ abstract class BasePresenter extends Presenter
 
 
 
+	/**
+	 * Check in customer. Insert cart in template.
+	 */
 	public function startup()
 	{
 		parent::startup();

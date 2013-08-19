@@ -19,6 +19,11 @@ use Nette\Object;
 
 
 /**
+ * Representation of customer. Is virtual - not stored in database.
+ * 
+ * @property Cart $cart
+ * @property User $user
+ * 
  * @author Nikolas Tsiongas
  */
 class Customer extends Object
@@ -37,6 +42,11 @@ class Customer extends Object
 	private $transactions;
 
 
+	/**
+	 * @param Cart $cart
+	 * @param CartRepository $cartRepository
+	 * @param Transactions $transactions
+	 */
 	public function __construct(Cart $cart, CartRepository $cartRepository, Transactions $transactions)
 	{
 		$this->cart = $cart;
@@ -46,6 +56,21 @@ class Customer extends Object
 
 
 
+	/**
+	 * Return customer's cart.
+	 * @return Cart
+	 */
+	public function getCart()
+	{
+		return $this->cart;
+	}
+
+
+
+	/**
+	 * Bind user to customer.
+	 * @param User $user
+	 */
 	public function setUser(User $user)
 	{
 		$this->user = $user;
@@ -53,6 +78,10 @@ class Customer extends Object
 
 
 
+	/**
+	 * Return binded user.
+	 * @return User|null
+	 */
 	public function getUser()
 	{
 		return $this->user;
@@ -60,6 +89,10 @@ class Customer extends Object
 
 
 
+	/**
+	 * Mark customer as active.
+	 * @param Shop $shop
+	 */
 	public function checkIn(Shop $shop)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'checkIn');
@@ -85,13 +118,11 @@ class Customer extends Object
 
 
 
-	public function getCart()
-	{
-		return $this->cart;
-	}
-
-
-
+	/**
+	 * Ask shop for item.
+	 * @param Item $item
+	 * @param Shop $shop
+	 */
 	public function requestItem(Item $item, Shop $shop)
 	{
 		$shop->giveItem($item, $this);
@@ -99,6 +130,10 @@ class Customer extends Object
 
 
 
+	/**
+	 * Take item from shop. (Do NOT call directly.)
+	 * @param Item $item
+	 */
 	public function takeItem(Item $item)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'takeItem');
@@ -109,6 +144,11 @@ class Customer extends Object
 
 
 
+	/**
+	 * Return item to shop.
+	 * @param Item $item
+	 * @param Shop $shop
+	 */
 	public function returnItem(Item $item, Shop $shop)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'returnItem');
@@ -119,6 +159,11 @@ class Customer extends Object
 
 
 
+	/**
+	 * Submit order in shop.
+	 * @param Order $order
+	 * @param Shop $shop
+	 */
 	public function submitOrder(Order $order, Shop $shop)
 	{
 		$shop->processOrder($order, $this->getCart(), $this);
@@ -126,6 +171,10 @@ class Customer extends Object
 
 
 
+	/**
+	 * Take processed order from shop. (Do NOT call directly.)
+	 * @param Order $order
+	 */
 	public function takeOrder(Order $order)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'takeOrder');

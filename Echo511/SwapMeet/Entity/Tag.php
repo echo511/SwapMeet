@@ -15,13 +15,13 @@ use LeanMapper\Entity;
 
 
 /**
- * Tag entity.
- * 
- * @author Nikolas Tsiongas
+ * Tag.
  * 
  * @property int $id
  * @property string $title
  * @property Item[] $items m:hasMany
+ * 
+ * @author Nikolas Tsiongas
  */
 class Tag extends Entity
 {

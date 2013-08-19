@@ -26,10 +26,15 @@ use Nette\Templating\FileTemplate;
 
 
 /**
+ * Email sellers after successful order.
+ * 
  * @author Nikolas Tsiongas
  */
 class EmailSellerAfterOrder extends Object implements Subscriber
 {
+
+	/** @var CancelOrder */
+	private $cancelOrder;
 
 	/** @var IMailer */
 	private $mailer;
@@ -37,28 +42,26 @@ class EmailSellerAfterOrder extends Object implements Subscriber
 	/** @var Presenter */
 	private $presenter;
 
-	/** @var CancelOrder */
-	private $cancelOrder;
 
-
-	public function __construct(IMailer $mailer, Application $application, CancelOrder $cancelOrder)
+	/**
+	 * @param Application $application
+	 * @param CancelOrder $cancelOrder
+	 * @param IMailer $mailer
+	 */
+	public function __construct(Application $application, CancelOrder $cancelOrder, IMailer $mailer)
 	{
+		$this->cancelOrder = $cancelOrder;
 		$this->mailer = $mailer;
 		$this->presenter = $application->getPresenter();
-		$this->cancelOrder = $cancelOrder;
 	}
 
 
 
-	public function getSubscribedEvents()
-	{
-		return array(
-		    'Echo511\SwapMeet\Entity\Shop::onSuccessOrder'
-		);
-	}
-
-
-
+	/**
+	 * Send email on event.
+	 * @param Order $order
+	 * @param Customer $customer
+	 */
 	public function onSuccessOrder(Order $order, Customer $customer)
 	{
 		foreach ($this->getRecepients($order) as $recepient) {
@@ -69,6 +72,11 @@ class EmailSellerAfterOrder extends Object implements Subscriber
 
 
 
+	/**
+	 * Order can have items from multiple sellers. Return list of them.
+	 * @param Order $order
+	 * @return User[]
+	 */
 	protected function getRecepients(Order $order)
 	{
 		$recepients = array();
@@ -80,6 +88,12 @@ class EmailSellerAfterOrder extends Object implements Subscriber
 
 
 
+	/**
+	 * Create mail message.
+	 * @param Order $order
+	 * @param User $recepient
+	 * @return Message
+	 */
 	protected function createMessage(Order $order, User $recepient)
 	{
 		$mail = new Message;
@@ -91,6 +105,12 @@ class EmailSellerAfterOrder extends Object implements Subscriber
 
 
 
+	/**
+	 * Create template.
+	 * @param Order $order
+	 * @param User $recepient
+	 * @return FileTemplate
+	 */
 	protected function createTemplate(Order $order, User $recepient)
 	{
 		$template = new FileTemplate(__DIR__ . DIRECTORY_SEPARATOR . 'OrderEmails' . DIRECTORY_SEPARATOR . 'emailToSeller.latte');
@@ -111,6 +131,17 @@ class EmailSellerAfterOrder extends Object implements Subscriber
 		}
 
 		return $template;
+	}
+
+
+
+	/* ----------- Subscriber ----------- */
+
+	public function getSubscribedEvents()
+	{
+		return array(
+		    'Echo511\SwapMeet\Entity\Shop::onSuccessOrder'
+		);
 	}
 
 

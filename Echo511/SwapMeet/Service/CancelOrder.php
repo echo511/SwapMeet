@@ -20,6 +20,8 @@ use Nette\Object;
 
 
 /**
+ * Cancel order scenarios.
+ * 
  * @author Nikolas Tsiongas
  */
 class CancelOrder extends Object
@@ -38,6 +40,12 @@ class CancelOrder extends Object
 	private $transactions;
 
 
+	/**
+	 * @param string $salt
+	 * @param ItemRepository $itemRepository
+	 * @param OrderRepository $orderRepository
+	 * @param Transactions $transactions
+	 */
 	public function __construct($salt, ItemRepository $itemRepository, OrderRepository $orderRepository, Transactions $transactions)
 	{
 		$this->salt = $salt;
@@ -48,11 +56,16 @@ class CancelOrder extends Object
 
 
 
-	public function cancelItemsByUser(User $user, Order $order)
+	/**
+	 * Remove items from order owned by seller.
+	 * @param User $seller
+	 * @param Order $order
+	 */
+	public function cancelItemsByUser(User $seller, Order $order)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'cancelItemsByUser');
 		foreach ($order->items as $item) {
-			if ($item->user->id == $user->id) {
+			if ($item->user->id == $seller->id) {
 				$order->removeFromItems($item);
 				$item->remaining = $item->remaining + 1;
 				$this->itemRepository->persist($item);
@@ -70,6 +83,10 @@ class CancelOrder extends Object
 
 
 
+	/**
+	 * Cancel whole order.
+	 * @param Order $order
+	 */
 	public function cancel(Order $order)
 	{
 		$this->transactions->startTransaction(get_called_class() . 'cancel');
@@ -79,9 +96,16 @@ class CancelOrder extends Object
 
 
 
-	public function createManipulationPass(User $user, Order $order)
+	/**
+	 * Create manipulation pass for seller & buyer.
+	 * @param User $user
+	 * @param Order $order
+	 * @param string $role
+	 * @return string
+	 */
+	public function createManipulationPass(User $user, Order $order, $role = 'seller')
 	{
-		return sha1($user->id . $user->username . $user->email . $order->id . $this->salt);
+		return sha1($user->id . $user->username . $user->email . $order->id . $role . $this->salt);
 	}
 
 

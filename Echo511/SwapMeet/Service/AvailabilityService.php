@@ -18,6 +18,8 @@ use Nette\Object;
 
 
 /**
+ * Check availability of items in shop.
+ * 
  * @author Nikolas Tsiongas
  */
 class AvailabilityService extends Object
@@ -30,6 +32,10 @@ class AvailabilityService extends Object
 	private $connection;
 
 
+	/**
+	 * @param CartRepository $cartRepository
+	 * @param Connection $connection
+	 */
 	public function __construct(CartRepository $cartRepository, Connection $connection)
 	{
 		$this->cartRepository = $cartRepository;
@@ -38,6 +44,11 @@ class AvailabilityService extends Object
 
 
 
+	/**
+	 * Return how many items are left.
+	 * @param \Echo511\SwapMeet\Entity\Item $item
+	 * @return type
+	 */
 	public function countAvailability(Item $item)
 	{
 		$map = $this->createAvailabilityMap(array($item));
@@ -46,6 +57,11 @@ class AvailabilityService extends Object
 
 
 
+	/**
+	 * Return map $item->id => $available.
+	 * @param Item[] $items
+	 * @return array
+	 */
 	public function createAvailabilityMap($items)
 	{
 		$result = $this->connection->select('[item_id], COUNT([item_id]) AS [total]')

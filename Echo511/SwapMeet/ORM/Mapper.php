@@ -16,6 +16,8 @@ use LeanMapper\Row;
 
 
 /**
+ * ORM mapper.
+ * 
  * @author Nikolas Tsiongas
  */
 class Mapper extends DefaultMapper

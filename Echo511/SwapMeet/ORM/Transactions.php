@@ -26,6 +26,9 @@ class Transactions extends Object implements Subscriber
 	private $connection;
 
 
+	/**
+	 * @param Connection $connection
+	 */
 	public function __construct(Connection $connection)
 	{
 		$this->connection = $connection;
@@ -33,6 +36,9 @@ class Transactions extends Object implements Subscriber
 
 
 
+	/**
+	 * Start transaction.
+	 */
 	public function onFirst()
 	{
 		$this->connection->query('START TRANSACTION;');
@@ -40,6 +46,9 @@ class Transactions extends Object implements Subscriber
 
 
 
+	/**
+	 * End transaction.
+	 */
 	public function onLast()
 	{
 		$this->connection->query('COMMIT;');
@@ -47,12 +56,17 @@ class Transactions extends Object implements Subscriber
 
 
 
+	/**
+	 * Rollback.
+	 */
 	public function onAbort()
 	{
 		$this->connection->query('ROLLBACK;');
 	}
 
 
+
+	/* ----------- Subscriber ----------- */
 
 	public function getSubscribedEvents()
 	{

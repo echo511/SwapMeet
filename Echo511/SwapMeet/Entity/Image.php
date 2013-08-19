@@ -13,6 +13,11 @@ namespace Echo511\SwapMeet\Entity;
 
 
 /**
+ * Image.
+ * 
+ * @property string $filename
+ * @property string $baseFilename
+ * 
  * @author Nikolas Tsiongas
  */
 class Image extends \Nette\Object
@@ -22,6 +27,10 @@ class Image extends \Nette\Object
 	private $baseFilename;
 
 
+	/**
+	 * @param string $filename
+	 * @param string $baseFilename
+	 */
 	public function __construct($filename, $baseFilename)
 	{
 		$this->filename = $filename;
@@ -30,6 +39,10 @@ class Image extends \Nette\Object
 
 
 
+	/**
+	 * Return system filename.
+	 * @return string
+	 */
 	public function getFilename()
 	{
 		return $this->filename;
@@ -37,6 +50,10 @@ class Image extends \Nette\Object
 
 
 
+	/**
+	 * Return URL for browser.
+	 * @return string
+	 */
 	public function getBaseFilename()
 	{
 		return $this->baseFilename;

@@ -17,6 +17,8 @@ use Echo511\SwapMeet\Service\AvailabilityService;
 
 
 /**
+ * Display offers to customer.
+ * 
  * @author Nikolas Tsiongas
  */
 class BrowserPresenter extends BasePresenter
@@ -32,6 +34,12 @@ class BrowserPresenter extends BasePresenter
 	private $itemRepository;
 
 
+	/**
+	 * Inject dependencies.
+	 * @param AvailabilityService $availabilityService
+	 * @param ImageRepository $imageRepository
+	 * @param ItemRepository $itemRepository
+	 */
 	public function injectBrowserPresenter(AvailabilityService $availabilityService, ImageRepository $imageRepository, ItemRepository $itemRepository)
 	{
 		$this->availabilityService = $availabilityService;
@@ -41,6 +49,10 @@ class BrowserPresenter extends BasePresenter
 
 
 
+	/**
+	 * Add item to cart.
+	 * @param int $item_id
+	 */
 	public function handleAddToCart($item_id)
 	{
 		$item = $this->itemRepository->get($item_id);
@@ -56,6 +68,9 @@ class BrowserPresenter extends BasePresenter
 
 
 
+	/**
+	 * Render.
+	 */
 	public function renderDefault()
 	{
 		$this->template->items = $this->itemRepository->findAll();

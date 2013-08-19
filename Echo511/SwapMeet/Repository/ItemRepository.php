@@ -11,11 +11,12 @@
 
 namespace Echo511\SwapMeet\Repository;
 
-use Echo511\SwapMeet\Entity\Item;
 use Echo511\SwapMeet\ORM\Repository;
 
 
 /**
+ * Item repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class ItemRepository extends Repository

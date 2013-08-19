@@ -18,15 +18,24 @@ use Nette\Utils\Finder;
 
 
 /**
+ * Image repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class ImageRepository extends Object
 {
 
+	/** @var string */
 	private $basePath;
+
+	/** @var string */
 	private $dir;
 
 
+	/**
+	 * @param string $dir
+	 * @param string $basePath
+	 */
 	public function __construct($dir, $basePath)
 	{
 		$this->basePath = $basePath;
@@ -35,6 +44,11 @@ class ImageRepository extends Object
 
 
 
+	/**
+	 * Return all images for item.
+	 * @param Item $item
+	 * @return Image[]
+	 */
 	public function getAllByItem(Item $item)
 	{
 		$dir = $this->dir . DIRECTORY_SEPARATOR . $item->id;

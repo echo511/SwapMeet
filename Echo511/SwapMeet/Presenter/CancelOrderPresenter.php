@@ -17,6 +17,8 @@ use Echo511\SwapMeet\Service\CancelOrder;
 
 
 /**
+ * Cancel order as seller.
+ * 
  * @author Nikolas Tsiongas
  */
 class CancelOrderPresenter extends BasePresenter
@@ -32,6 +34,12 @@ class CancelOrderPresenter extends BasePresenter
 	private $userRepository;
 
 
+	/**
+	 * Inject dependencies.
+	 * @param CancelOrder $cancelOrder
+	 * @param OrderRepository $orderRepository
+	 * @param UserRepository $userRepository
+	 */
 	public function injectCancelOrderPresenter(CancelOrder $cancelOrder, OrderRepository $orderRepository, UserRepository $userRepository)
 	{
 		$this->cancelOrder = $cancelOrder;
@@ -41,6 +49,12 @@ class CancelOrderPresenter extends BasePresenter
 
 
 
+	/**
+	 * Remove items from order owned by seller.
+	 * @param int $user_id
+	 * @param int $order_id
+	 * @param string $manipulation_link
+	 */
 	public function actionCancelItemsByUser($user_id, $order_id, $manipulation_link)
 	{
 		$user = $this->userRepository->get($user_id);
@@ -49,6 +63,7 @@ class CancelOrderPresenter extends BasePresenter
 		if ($user && $order) {
 			if ($this->cancelOrder->createManipulationPass($user, $order) == $manipulation_link) {
 				$this->cancelOrder->cancelItemsByUser($user, $order);
+				// @TODO english
 				$this->flashMessage('Objednávka smazána.', 'success');
 			} else {
 				// @TODO english

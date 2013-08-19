@@ -17,10 +17,9 @@ use Nette\Diagnostics\Debugger;
 
 
 /**
- * This class is a part of SwapMeet.
+ * Error handler.
  * 
  * @author Nikolas Tsiongas
-
  */
 class ErrorPresenter extends BasePresenter
 {

@@ -11,31 +11,43 @@
 
 namespace Echo511\SwapMeet\ORM;
 
-use DibiRow;
 use Kdyby\Events\EventManager;
 use LeanMapper\Connection;
-use LeanMapper\Events;
+use LeanMapper\Entity;
 use LeanMapper\IMapper;
 use LeanMapper\Repository as LMRepository;
-use LeanMapper\Result;
-use Nette\DI\Container;
 
 
+/**
+ * Abstract repository.
+ * 
+ * @author Nikolas Tsiongas
+ */
 abstract class Repository extends LMRepository
 {
 
 	/** @var EventManager */
-	private $evm;
+	private $eventManager;
 
 
-	public function __construct(Connection $connection, IMapper $mapper, EventManager $evm)
+	/**
+	 * @param Connection $connection
+	 * @param EventManager $eventManager
+	 * @param IMapper $mapper
+	 */
+	public function __construct(Connection $connection, EventManager $eventManager, IMapper $mapper)
 	{
-		$this->evm = $evm;
+		$this->eventManager = $eventManager;
 		parent::__construct($connection, $mapper);
 	}
 
 
 
+	/**
+	 * Return entity by primary key.
+	 * @param int $primary
+	 * @return Entity|bool
+	 */
 	public function get($primary)
 	{
 		$row = $this->connection->select('*')
@@ -52,6 +64,14 @@ abstract class Repository extends LMRepository
 
 
 
+	/**
+	 * Return entities - basic filtering, ordering, limit, offset.
+	 * @param array $where
+	 * @param array $order
+	 * @param int $limit
+	 * @param int $offset
+	 * @return Entity[]
+	 */
 	public function findAll(array $where = null, array $order = null, $limit = null, $offset = null)
 	{
 		$query = $this->connection->select('*')
@@ -91,7 +111,7 @@ abstract class Repository extends LMRepository
 
 	  foreach ($events as $eventName) {
 	  $ns = get_class($this);
-	  $event = $this->evm->createEvent($ns . '::' . $eventName);
+	  $event = $this->eventManager->createEvent($ns . '::' . $eventName);
 	  $this->events->registerCallback($eventName, $event);
 	  }
 	  }

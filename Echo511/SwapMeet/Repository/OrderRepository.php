@@ -13,6 +13,8 @@ namespace Echo511\SwapMeet\Repository;
 
 
 /**
+ * Order repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class OrderRepository extends \Echo511\SwapMeet\ORM\Repository

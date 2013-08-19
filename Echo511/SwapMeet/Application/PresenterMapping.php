@@ -17,6 +17,8 @@ use Nette\Object;
 
 
 /**
+ * Custom presenters' classes.
+ * 
  * @author Nikolas Tsiongas
  */
 class PresenterMapping extends Object implements Subscriber
@@ -26,6 +28,9 @@ class PresenterMapping extends Object implements Subscriber
 	private $presenterFactory;
 
 
+	/**
+	 * @param PresenterFactory $presenterFactory
+	 */
 	public function __construct(PresenterFactory $presenterFactory)
 	{
 		$this->presenterFactory = $presenterFactory;
@@ -33,6 +38,9 @@ class PresenterMapping extends Object implements Subscriber
 
 
 
+	/**
+	 * Set mapping in presenter factory on DI initialization.
+	 */
 	public function onInitialize()
 	{
 		$this->presenterFactory->setMapping(array(
@@ -41,6 +49,8 @@ class PresenterMapping extends Object implements Subscriber
 	}
 
 
+
+	/* ----------- Subscriber ----------- */
 
 	public function getSubscribedEvents()
 	{

@@ -16,30 +16,11 @@ use Echo511\SwapMeet\ORM\Repository;
 
 
 /**
+ * User repository.
+ * 
  * @author Nikolas Tsiongas
  */
 class UserRepository extends Repository
 {
-
-	public function provideByAnonymId($anonym_id)
-	{
-		$row = $this->connection->select('*')
-			->from($this->getTable())
-			->where('[isAnonym] = ?', true)
-			->where('[username] = ?', '__anonym_' . $anonym_id)
-			->fetch();
-
-		if (!$row) {
-			$user = new User;
-			$user->username = '__anonym_' . $anonym_id;
-			$user->isAnonym = true;
-			$this->persist($user);
-			return $user;
-		}
-
-		return $this->createEntity($row);
-	}
-
-
-
+	
 }

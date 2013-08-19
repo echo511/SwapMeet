@@ -18,6 +18,8 @@ use Nette\Object;
 
 
 /**
+ * Routes for application.
+ * 
  * @author Nikolas Tsiongas
  */
 class RouterFactory extends Object implements Subscriber
@@ -27,6 +29,9 @@ class RouterFactory extends Object implements Subscriber
 	private $routeList;
 
 
+	/**
+	 * @param RouteList $routeList
+	 */
 	public function __construct(RouteList $routeList)
 	{
 		$this->routeList = $routeList;
@@ -34,6 +39,9 @@ class RouterFactory extends Object implements Subscriber
 
 
 
+	/**
+	 * Create routes on DI initialization.
+	 */
 	public function onInitialize()
 	{
 		$this->routeList[] = new Route('<presenter>/<action>', array(
@@ -44,6 +52,8 @@ class RouterFactory extends Object implements Subscriber
 	}
 
 
+
+	/* ----------- Subscriber ----------- */
 
 	public function getSubscribedEvents()
 	{
