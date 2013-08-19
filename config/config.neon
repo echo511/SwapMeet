@@ -14,96 +14,14 @@ common:
 
 		debugger:
 			bar:
-				- @orm.dibipanel
+				- @swapMeet.orm.dibipanel
 
 		mailer:
 			smtp: false
 
 	extensions:
 		events: Kdyby\Events\DI\EventsExtension
-
-	services:
-		# Application
-		application.presenterMapping:
-			class: Echo511\SwapMeet\Application\PresenterMapping
-			tags: [kdyby.subscriber]
-
-		application.routerFactory:
-			class: Echo511\SwapMeet\Application\RouterFactory
-			tags: [kdyby.subscriber]
-
-		# ORM 
-		orm.connection:
-			class: LeanMapper\Connection(%database%)
-
-		orm.dibipanel:
-			class: Echo511\SwapMeet\ORM\DibiPanel
-			tags: [kdyby.subscriber]
-
-		orm.mapper:
-			class: Echo511\SwapMeet\ORM\Mapper
-
-		orm.transactions:
-			class: Echo511\SwapMeet\ORM\Transactions
-			tags: [kdyby.subscriber]
-
-
-		# Entity factory
-		customerFactory:
-			class: Echo511\SwapMeet\EntityFactory\CustomerFactory
-
-
-		# Entity
-		entity.customer:
-			class: Echo511\SwapMeet\Entity\Customer
-			factory: @customerFactory::create
-		
-		entity.shop:
-			class: Echo511\SwapMeet\Entity\Shop
-
-
-		# Repository
-		repository.cartRepository:
-			class: Echo511\SwapMeet\Repository\CartRepository
-
-		repository.imageRepository:
-			class: Echo511\SwapMeet\Repository\ImageRepository("%appDir%/../www/images/items", "images/items")
-
-		repository.itemRepository:
-			class: Echo511\SwapMeet\Repository\ItemRepository
-
-		repository.orderRepository:
-			class: Echo511\SwapMeet\Repository\OrderRepository
-
-		repository.tagRepository:
-			class: Echo511\SwapMeet\Repository\TagRepository
-
-		repository.userRepository:
-			class: Echo511\SwapMeet\Repository\UserRepository
-
-
-		# Service
-		service.availabilityService:
-			class: Echo511\SwapMeet\Service\AvailabilityService
-		
-		service.cancelOrder:
-			class: Echo511\SwapMeet\Service\CancelOrder(%salt%)
-
-		service.transactions:
-			class: Echo511\SwapMeet\Transactions\Transactions
-
-
-		# Email
-		email.emailBuyerAfterOrder:
-			class: Echo511\SwapMeet\Email\EmailBuyerAfterOrder
-			tags: [kdyby.subscriber]
-
-		email.emailSellerAfterOrder:
-			class: Echo511\SwapMeet\Email\EmailSellerAfterOrder
-			tags: [kdyby.subscriber]
-
-	factories:
-
+		swapMeet: Echo511\SwapMeet\DI\SwapMeetExtension
 
 production < common:
 
