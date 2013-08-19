@@ -1,6 +1,8 @@
 parameters:
 	salt: FcvvEAtAbXHVurGxVJrYHLpM
 
+	cartLifetime: 10
+
 	database:
 		host: 127.0.0.1
 		username: root
