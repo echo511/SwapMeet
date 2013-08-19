@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of SwapMeet.
+ *
+ * Copyright (c) 2013 Nikolas Tsiongas (http://congi.cz)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ */
+
 namespace Echo511\SwapMeet\Presenter;
 
 use Echo511\SwapMeet\Repository\OrderRepository;
@@ -7,6 +16,9 @@ use Echo511\SwapMeet\Repository\UserRepository;
 use Echo511\SwapMeet\Service\CancelOrder;
 
 
+/**
+ * @author Nikolas Tsiongas
+ */
 class CancelOrderPresenter extends BasePresenter
 {
 

@@ -16,6 +16,9 @@ use Nette\Application\PresenterFactory;
 use Nette\Object;
 
 
+/**
+ * @author Nikolas Tsiongas
+ */
 class PresenterMapping extends Object implements Subscriber
 {
 

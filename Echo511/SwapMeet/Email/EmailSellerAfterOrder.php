@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of SwapMeet.
+ *
+ * Copyright (c) 2013 Nikolas Tsiongas (http://congi.cz)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ */
+
 namespace Echo511\SwapMeet\Email;
 
 use Echo511\SwapMeet\Entity\Customer;
@@ -16,6 +25,9 @@ use Nette\Object;
 use Nette\Templating\FileTemplate;
 
 
+/**
+ * @author Nikolas Tsiongas
+ */
 class EmailSellerAfterOrder extends Object implements Subscriber
 {
 
