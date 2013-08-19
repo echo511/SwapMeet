@@ -1,0 +1,11 @@
+{var $mail->subject = "Objednávka zařazena"}
+
+<p>Díky za vaši objednávku.</p>
+<ul>
+	<li n:foreach="$items as $item">{$item->title} ({$item->price} Kč)</li>
+</ul>
+
+<p>Prodávající vás bude kontaktovat na tomto emailu.</p>
+
+<hr />
+<p>SwapMeet</p>

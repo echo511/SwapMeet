@@ -1,0 +1,11 @@
+{var $mail->subject = "Někdo si něco objednal"}
+
+<p>Někdo na adrese {$buyersEmail} si objednal následující:</p>
+<ul>
+	<li n:foreach="$items as $item">{$item->title} ({$item->price} Kč)</li>
+</ul>
+
+<p>Kontaktujte jej prosím co nejdříve. Pokud si přejete objednávku stornovat, klikněte na <a href="{$cancelLink}">tento odkaz</a>. Po stornování objednávky bude zboží k dispozici pro jiného zájemce.</p>
+
+<hr />
+<p>SwapMeet</p>
