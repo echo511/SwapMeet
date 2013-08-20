@@ -1,0 +1,21 @@
+{block #content}
+<h1>Přidat položku</h1>
+
+{form addItemForm, class => "form form-horizontal"}
+	<div class="control-group">
+		{input title, placeholder => "Název"}
+	</div>
+	<div class="control-group">
+		{input price, placeholder => "Cena"}
+	</div>
+	<div class="control-group">
+		{input remaining, placeholder => "Na skladě"}
+	</div>
+	<div class="control-group">
+		{input image}
+	</div>
+	<div class="control-group">
+		{input submit, class => "btn btn-primary", value => "Přidat"}
+	</div>
+{/form}
+{/block}

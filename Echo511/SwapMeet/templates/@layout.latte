@@ -5,7 +5,7 @@
  *
  * For the full copyright and license information, please view
  * the file license.txt that was distributed with this source code.
- *}
+*}
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -21,7 +21,7 @@
 		<script src="{$basePath}/assets/nette/nette.ajax.js"></script>
 		<script src="{$basePath}/assets/scripts.js"></script>
 	</head>
-	<body><div class="navbar navbar-inverse navbar-fixed-top">
+	<body><div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
 					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -36,6 +36,26 @@
 								<a n:href=":SwapMeet:Browser:default">Nabídka</a>
 							</li>
 						</ul>
+						{snippet user}
+							{if $user->isLoggedIn()}
+								<div class="userInfo pull-right">
+									<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+										{$user->getLoggedUser()->username} <img src="{$user->getLoggedUser()->email|gravatar:30}" />
+									</a>
+									<ul class="dropdown-menu">
+										<li{ifCurrent :SwapMeet:AddItem:*} class="active"{/ifCurrent}><a n:href=":SwapMeet:AddItem:default">Přida položku</a></li>
+										<li><a n:href=":SwapMeet:Authentication:logout">Odhlásit se</a></li>
+									</ul>
+								</div>
+							{else}
+								<ul class="nav pull-right">
+									<li{ifCurrent :SwapMeet:Authentication:login} class="active"{/ifCurrent}>
+										<a class="pull-right" n:href=":SwapMeet:Authentication:login">Přihlásit se</a>
+									</li>
+								</ul>
+
+							{/if}
+						{/snippet}
 						{snippet cart}
 							<ul class="nav pull-right">
 								<li{ifCurrent :SwapMeet:Cart:*} class="active"{/ifCurrent}>

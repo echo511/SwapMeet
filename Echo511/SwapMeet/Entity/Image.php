@@ -15,26 +15,42 @@ namespace Echo511\SwapMeet\Entity;
 /**
  * Image.
  * 
- * @property string $filename
- * @property string $baseFilename
+ * @property-read string $name
+ * @property-read string $filename
+ * @property-read string $baseFilename
  * 
  * @author Nikolas Tsiongas
  */
 class Image extends \Nette\Object
 {
 
+	private $name;
 	private $filename;
 	private $baseFilename;
 
 
 	/**
 	 * @param string $filename
-	 * @param string $baseFilename
+	 * @param string|null $baseFilename
+	 * @param string|null $name
 	 */
-	public function __construct($filename, $baseFilename)
+	public function __construct($filename, $baseFilename = null, $name = null)
 	{
 		$this->filename = $filename;
 		$this->baseFilename = $baseFilename;
+		$this->name = $name;
+	}
+
+
+
+	/**
+	 * Return image basename.
+	 * Cannot be extracted from filename when filename points to temp file.
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
 	}
 
 

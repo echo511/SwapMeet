@@ -45,14 +45,25 @@ class ImageRepository extends Object
 
 
 	/**
+	 * Associate image with item.
+	 * @param Image $image
+	 * @param Item $item
+	 */
+	public function persist(Image $image, Item $item)
+	{
+		copy($image->filename, $this->dirForItem($item) . DIRECTORY_SEPARATOR . $image->getName());
+	}
+
+
+
+	/**
 	 * Return all images for item.
 	 * @param Item $item
 	 * @return Image[]
 	 */
 	public function getAllByItem(Item $item)
 	{
-		$dir = $this->dir . DIRECTORY_SEPARATOR . $item->id;
-
+		$dir = $this->dirForItem($item);
 		if (is_dir($dir)) {
 			$finder = Finder::findFiles('*')
 				->from($dir);
@@ -65,7 +76,13 @@ class ImageRepository extends Object
 
 
 
-	private function createEntities(Finder $finder, $basePath)
+	/**
+	 * Return images in specified directory.
+	 * @param Finder $finder
+	 * @param string $basePath
+	 * @return Image[]
+	 */
+	protected function createEntities(Finder $finder, $basePath)
 	{
 		$entities = array();
 		foreach ($finder as $filename => $spl) {
@@ -73,6 +90,18 @@ class ImageRepository extends Object
 			$entities[] = new Image($filename, $baseFilename);
 		}
 		return $entities;
+	}
+
+
+
+	/**
+	 * Return path for item's images directory.
+	 * @param Item $item
+	 * @return string
+	 */
+	protected function dirForItem(Item $item)
+	{
+		return $this->dir . DIRECTORY_SEPARATOR . $item->id;
 	}
 
 

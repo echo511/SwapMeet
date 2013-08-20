@@ -11,6 +11,7 @@
 
 namespace Echo511\SwapMeet\Entity;
 
+use Echo511\SwapMeet\Repository\ImageRepository;
 use Echo511\SwapMeet\Repository\ItemRepository;
 use Echo511\SwapMeet\Repository\OrderRepository;
 use Echo511\SwapMeet\Service\AvailabilityService;
@@ -33,6 +34,9 @@ class Shop extends Object
 	/** @var AvailabilityService */
 	private $availabilityService;
 
+	/** @var ImageRepository */
+	private $imageRepository;
+
 	/** @var ItemRepository */
 	private $itemRepository;
 
@@ -49,9 +53,10 @@ class Shop extends Object
 	 * @param OrderRepository $orderRepository
 	 * @param Transactions $transactions
 	 */
-	public function __construct(AvailabilityService $availabilityService, ItemRepository $itemRepository, OrderRepository $orderRepository, Transactions $transactions)
+	public function __construct(AvailabilityService $availabilityService, ImageRepository $imageRepository, ItemRepository $itemRepository, OrderRepository $orderRepository, Transactions $transactions)
 	{
 		$this->availabilityService = $availabilityService;
+		$this->imageRepository = $imageRepository;
 		$this->itemRepository = $itemRepository;
 		$this->orderRepository = $orderRepository;
 		$this->transactions = $transactions;
@@ -68,6 +73,23 @@ class Shop extends Object
 	{
 		$this->checkAvailability($item);
 		$customer->takeItem($item);
+	}
+
+
+
+	/**
+	 * Add item into shop.
+	 * @param Item $item
+	 * @param array $images
+	 */
+	public function addItem(Item $item, array $images = array())
+	{
+		$this->transactions->startTransaction(get_called_class() . 'addItem');
+		$this->itemRepository->persist($item);
+		foreach ($images as $image) {
+			$this->imageRepository->persist($image, $item);
+		}
+		$this->transactions->endTransaction(get_called_class() . 'addItem');
 	}
 
 
