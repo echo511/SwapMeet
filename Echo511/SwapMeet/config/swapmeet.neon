@@ -80,4 +80,14 @@ services:
 		class: Echo511\SwapMeet\Email\EmailSellerAfterOrder
 		tags: [kdyby.subscriber]
 
+	# Security
+	security.userStorage.MySQLUserStorage:
+		class: Echo511\SwapMeet\Security\UserStorage\MySQLUserStorage
+
+	security.authenticator.databaseAuthenticator:
+		class: Echo511\SwapMeet\Security\Authenticator\DatabaseAuthenticator
+		tags:
+			echo511.security.authenticator: database
+
+
 factories:

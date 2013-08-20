@@ -11,6 +11,9 @@
 
 namespace Echo511\SwapMeet\Entity;
 
+use Echo511\Security\IUser;
+use LeanMapper\Entity;
+
 
 /**
  * User.
@@ -22,7 +25,7 @@ namespace Echo511\SwapMeet\Entity;
  *
  * @author Nikolas Tsiongas
  */
-class User extends \LeanMapper\Entity
+class User extends Entity implements IUser
 {
 	
 }

@@ -11,7 +11,6 @@
 
 namespace Echo511\SwapMeet\Repository;
 
-use Echo511\SwapMeet\Entity\User;
 use Echo511\SwapMeet\ORM\Repository;
 
 
@@ -22,5 +21,39 @@ use Echo511\SwapMeet\ORM\Repository;
  */
 class UserRepository extends Repository
 {
-	
+
+	/**
+	 * Find user by his credentials.
+	 * @param string $username
+	 * @param string $password
+	 * @return boolean
+	 */
+	public function findByCredentials($username, $password)
+	{
+		$row = $this->connection->select('*')
+			->from($this->getTable())
+			->where('[username] = ? AND [password] = ?', $username, $this->hashPassword($password))
+			->fetch();
+
+		if (!$row) {
+			return false;
+		}
+
+		return $this->createEntity($row);
+	}
+
+
+
+	/**
+	 * Hash user's password.
+	 * @param string $password
+	 * @return string
+	 */
+	protected function hashPassword($password)
+	{
+		return sha1($password);
+	}
+
+
+
 }

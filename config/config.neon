@@ -21,6 +21,7 @@ common:
 
 	extensions:
 		events: Kdyby\Events\DI\EventsExtension
+		security: Echo511\Security\DI\SecurityExtension
 		swapMeet: Echo511\SwapMeet\DI\SwapMeetExtension
 
 production < common:
